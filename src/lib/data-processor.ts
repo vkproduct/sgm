@@ -115,14 +115,14 @@ export const processTransactions = (transactions: Transaction[]): Customer[] => 
         c.m_score = assignScore(monetaries, c.monetary);
 
         // Assign Segment based on R and F (simplified standard matrix)
-        if (c.r_score >= 4 && c.f_score >= 4) c.segment = 'Champions';
-        else if (c.r_score >= 3 && c.f_score >= 3) c.segment = 'Loyal Customers';
-        else if (c.r_score >= 4 && c.f_score >= 2) c.segment = 'Potential Loyalists';
-        else if (c.r_score >= 3 && c.f_score <= 2) c.segment = 'Promising';
-        else if (c.r_score <= 2 && c.f_score >= 4) c.segment = 'Can\'t Lose Them';
-        else if (c.r_score <= 2 && c.f_score >= 2) c.segment = 'At Risk';
-        else if (c.r_score <= 2 && c.f_score <= 1) c.segment = 'Lost';
-        else c.segment = 'Needs Attention';
+        if (c.r_score >= 4 && c.f_score >= 4) c.segment = 'Чемпионы';
+        else if (c.r_score >= 3 && c.f_score >= 3) c.segment = 'Лояльные клиенты';
+        else if (c.r_score >= 4 && c.f_score >= 2) c.segment = 'Потенциально лояльные';
+        else if (c.r_score >= 3 && c.f_score <= 2) c.segment = 'Перспективные';
+        else if (c.r_score <= 2 && c.f_score >= 4) c.segment = 'Нельзя потерять';
+        else if (c.r_score <= 2 && c.f_score >= 2) c.segment = 'В зоне риска';
+        else if (c.r_score <= 2 && c.f_score <= 1) c.segment = 'Потерянные';
+        else c.segment = 'Требуют внимания';
     });
 
     return customerList;
