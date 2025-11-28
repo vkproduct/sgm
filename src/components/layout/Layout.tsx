@@ -69,10 +69,10 @@ export function Layout({ children, activeTab, onTabChange }: LayoutProps) {
 
             {/* Sidebar */}
             <aside className={cn(
-                "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
+                "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r transition-transform duration-200 ease-in-out md:sticky md:top-0 md:h-screen md:translate-x-0 flex flex-col",
                 isSidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}>
-                <div className="flex items-center justify-between h-16 px-6 border-b">
+                <div className="flex items-center justify-between h-16 px-6 border-b flex-shrink-0">
                     <div className="flex items-center space-x-2">
                         <PieChart className="w-6 h-6 text-primary" />
                         <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
@@ -87,7 +87,7 @@ export function Layout({ children, activeTab, onTabChange }: LayoutProps) {
                     </button>
                 </div>
 
-                <div className="p-4 space-y-1">
+                <div className="p-4 space-y-1 overflow-y-auto flex-1">
                     {menuItems.map((item) => (
                         <SidebarItem
                             key={item.id}
