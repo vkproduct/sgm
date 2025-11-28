@@ -18,20 +18,20 @@ export function ClusterAnalysis({ customers }: ClusterAnalysisProps) {
         // Sleeping: High Recency (old), Low Frequency
 
         const data = {
-            'VIP Customers': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#8b5cf6' },
-            'Regular Buyers': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#3b82f6' },
-            'Occasional Shoppers': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#10b981' },
-            'New Low Spenders': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#f59e0b' },
-            'Sleeping Shoppers': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#64748b' }
+            'VIP клиенты': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#8b5cf6' },
+            'Постоянные покупатели': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#3b82f6' },
+            'Случайные покупатели': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#10b981' },
+            'Новые с низкими тратами': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#f59e0b' },
+            'Спящие покупатели': { count: 0, monetary: 0, frequency: 0, recency: 0, color: '#64748b' }
         };
 
         customers.forEach(c => {
-            let cluster = 'Occasional Shoppers';
+            let cluster = 'Случайные покупатели';
 
-            if (c.monetary > 2000) cluster = 'VIP Customers';
-            else if (c.frequency > 10) cluster = 'Regular Buyers';
-            else if (c.recency < 30 && c.frequency <= 2) cluster = 'New Low Spenders';
-            else if (c.recency > 90) cluster = 'Sleeping Shoppers';
+            if (c.monetary > 2000) cluster = 'VIP клиенты';
+            else if (c.frequency > 10) cluster = 'Постоянные покупатели';
+            else if (c.recency < 30 && c.frequency <= 2) cluster = 'Новые с низкими тратами';
+            else if (c.recency > 90) cluster = 'Спящие покупатели';
 
             data[cluster as keyof typeof data].count++;
             data[cluster as keyof typeof data].monetary += c.monetary;
@@ -61,15 +61,15 @@ export function ClusterAnalysis({ customers }: ClusterAnalysisProps) {
                             <div className="text-2xl font-bold mb-2">{cluster.count}</div>
                             <div className="space-y-1 text-xs text-muted-foreground">
                                 <div className="flex items-center justify-between">
-                                    <span className="flex items-center"><DollarSign className="w-3 h-3 mr-1" /> Avg Value</span>
+                                    <span className="flex items-center"><DollarSign className="w-3 h-3 mr-1" /> Ср. чек</span>
                                     <span className="font-medium">${cluster.avgValue}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="flex items-center"><ShoppingBag className="w-3 h-3 mr-1" /> Freq</span>
+                                    <span className="flex items-center"><ShoppingBag className="w-3 h-3 mr-1" /> Частота</span>
                                     <span className="font-medium">{cluster.avgFreq}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="flex items-center"><Clock className="w-3 h-3 mr-1" /> Days Ago</span>
+                                    <span className="flex items-center"><Clock className="w-3 h-3 mr-1" /> Дней назад</span>
                                     <span className="font-medium">{cluster.avgRecency}</span>
                                 </div>
                             </div>
@@ -81,8 +81,8 @@ export function ClusterAnalysis({ customers }: ClusterAnalysisProps) {
             <div className="grid gap-6 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Cluster Size Comparison</CardTitle>
-                        <CardDescription>Number of customers in each cluster</CardDescription>
+                        <CardTitle>Сравнение размеров кластеров</CardTitle>
+                        <CardDescription>Количество клиентов в каждом кластере</CardDescription>
                     </CardHeader>
                     <CardContent className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
@@ -106,8 +106,8 @@ export function ClusterAnalysis({ customers }: ClusterAnalysisProps) {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Average Value by Cluster</CardTitle>
-                        <CardDescription>Average lifetime value per customer</CardDescription>
+                        <CardTitle>Средний чек по кластерам</CardTitle>
+                        <CardDescription>Средняя сумма покупок на клиента</CardDescription>
                     </CardHeader>
                     <CardContent className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
@@ -118,7 +118,7 @@ export function ClusterAnalysis({ customers }: ClusterAnalysisProps) {
                                 <Tooltip
                                     contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}
                                     itemStyle={{ color: 'hsl(var(--foreground))' }}
-                                    formatter={(value) => [`$${value}`, 'Avg Value']}
+                                    formatter={(value) => [`$${value}`, 'Средний чек']}
                                 />
                                 <Bar dataKey="avgValue" radius={[4, 4, 0, 0]}>
                                     {clusters.map((entry: typeof clusters[number], index: number) => (

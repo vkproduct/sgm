@@ -38,7 +38,7 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
             setPreviewData(transactions.slice(0, 5));
             onDataLoaded(transactions, customers);
         } catch (err) {
-            setError('Failed to process data. Please check the file format.');
+            setError('Не удалось обработать данные. Проверьте формат файла.');
             console.error(err);
         } finally {
             setIsLoading(false);
@@ -55,10 +55,10 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
                 const data = await parseCSV(file);
                 processData(data);
             } catch (err) {
-                setError('Error parsing CSV file.');
+                setError('Ошибка при чтении CSV файла.');
             }
         } else {
-            setError('Please upload a valid CSV file.');
+            setError('Пожалуйста, загрузите корректный CSV файл.');
         }
     }, []);
 
@@ -84,10 +84,10 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
             <div className="grid gap-6 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Upload Transaction Data</CardTitle>
+                        <CardTitle>Загрузка данных о транзакциях</CardTitle>
                         <CardDescription>
-                            Upload your sales data (CSV) to generate insights.
-                            Required columns: CustomerID, InvoiceDate, Quantity, UnitPrice, Country.
+                            Загрузите данные о продажах (CSV) для анализа.
+                            Обязательные колонки: CustomerID, InvoiceDate, Quantity, UnitPrice, Country.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -110,15 +110,15 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
                             />
                             <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center">
                                 <Upload className="w-10 h-10 text-muted-foreground mb-4" />
-                                <span className="text-lg font-medium">Drop CSV file here or click to upload</span>
-                                <span className="text-sm text-muted-foreground mt-2">Max file size: 10MB</span>
+                                <span className="text-lg font-medium">Перетащите CSV файл сюда или нажмите для загрузки</span>
+                                <span className="text-sm text-muted-foreground mt-2">Максимальный размер: 10MB</span>
                             </label>
                         </div>
 
                         <div className="mt-6 flex items-center justify-center">
-                            <span className="text-sm text-muted-foreground mr-4">Or use sample data:</span>
+                            <span className="text-sm text-muted-foreground mr-4">Или используйте демо-данные:</span>
                             <Button variant="outline" onClick={loadSampleData} disabled={isLoading}>
-                                Load Demo Dataset
+                                Загрузить демо-данные
                             </Button>
                         </div>
 
@@ -133,9 +133,9 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Data Preview</CardTitle>
+                        <CardTitle>Предпросмотр данных</CardTitle>
                         <CardDescription>
-                            First 5 rows of the loaded dataset.
+                            Первые 5 строк загруженного набора данных.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -144,10 +144,10 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
                                 <table className="w-full text-sm text-left">
                                     <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
                                         <tr>
-                                            <th className="px-4 py-2">Date</th>
-                                            <th className="px-4 py-2">Customer</th>
-                                            <th className="px-4 py-2">Amount</th>
-                                            <th className="px-4 py-2">Country</th>
+                                            <th className="px-4 py-2">Дата</th>
+                                            <th className="px-4 py-2">Клиент</th>
+                                            <th className="px-4 py-2">Сумма</th>
+                                            <th className="px-4 py-2">Страна</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -163,13 +163,13 @@ export function DataUpload({ onDataLoaded }: DataUploadProps) {
                                 </table>
                                 <div className="mt-4 flex items-center text-green-600">
                                     <CheckCircle className="w-4 h-4 mr-2" />
-                                    Data loaded successfully
+                                    Данные успешно загружены
                                 </div>
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center h-48 text-muted-foreground">
                                 <FileText className="w-8 h-8 mb-2 opacity-50" />
-                                <p>No data loaded yet</p>
+                                <p>Данные еще не загружены</p>
                             </div>
                         )}
                     </CardContent>

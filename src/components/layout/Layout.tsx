@@ -48,13 +48,13 @@ export function Layout({ children, activeTab, onTabChange }: LayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const menuItems = [
-        { id: 'upload', label: 'Data Upload', icon: Upload },
-        { id: 'segments', label: 'RFM Segments', icon: LayoutDashboard },
-        { id: 'clusters', label: 'Customer Clusters', icon: Users },
-        { id: 'trends', label: 'Temporal Trends', icon: TrendingUp },
-        { id: 'holidays', label: 'Holiday Analysis', icon: Calendar },
-        { id: 'recommendations', label: 'AI Recommendations', icon: Lightbulb },
-        { id: 'export', label: 'Export & Integration', icon: Download },
+        { id: 'upload', label: 'Загрузка данных', icon: Upload },
+        { id: 'segments', label: 'RFM сегменты', icon: LayoutDashboard },
+        { id: 'clusters', label: 'Кластеры клиентов', icon: Users },
+        { id: 'trends', label: 'Временные тренды', icon: TrendingUp },
+        { id: 'holidays', label: 'Анализ праздников', icon: Calendar },
+        { id: 'recommendations', label: 'AI рекомендации', icon: Lightbulb },
+        { id: 'export', label: 'Экспорт и интеграция', icon: Download },
     ];
 
     return (
