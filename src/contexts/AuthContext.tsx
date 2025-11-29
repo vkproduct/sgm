@@ -21,79 +21,83 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        // Проверка сохраненной сессии
-        const savedUser = sessionStorage.getItem('currentUser');
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
-        }
+        const checkAuth = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const response = await fetch('/api/auth/me', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        setUser(data);
+                    } else {
+                        localStorage.removeItem('token');
+                        setUser(null);
+                    }
+                } catch (error) {
+                    console.error('Auth check failed:', error);
+                    localStorage.removeItem('token');
+                    setUser(null);
+                }
+            }
+        };
+        checkAuth();
     }, []);
 
     const register = async (email: string, password: string, name: string): Promise<boolean> => {
         try {
-            // Получаем существующих пользователей
-            const usersData = localStorage.getItem('users');
-            const users = usersData ? JSON.parse(usersData) : [];
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, name }),
+            });
 
-            // Проверка на существующий email
-            if (users.find((u: any) => u.email === email)) {
-                alert('Пользователь с таким email уже существует');
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                setUser(data.user);
+                return true;
+            } else {
+                const error = await response.json();
+                alert(error.message || 'Ошибка регистрации');
                 return false;
             }
-
-            // Создаем нового пользователя
-            const newUser = {
-                id: Date.now().toString(),
-                email,
-                password, // В реальном приложении нужно хэшировать!
-                name,
-                createdAt: new Date().toISOString()
-            };
-
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-
-            // Автоматический вход после регистрации
-            const userSession = { id: newUser.id, email: newUser.email, name: newUser.name, createdAt: newUser.createdAt };
-            setUser(userSession);
-            sessionStorage.setItem('currentUser', JSON.stringify(userSession));
-
-            return true;
         } catch (error) {
-            console.error('Ошибка регистрации:', error);
+            console.error('Registration error:', error);
             return false;
         }
     };
 
     const login = async (email: string, password: string): Promise<boolean> => {
         try {
-            const usersData = localStorage.getItem('users');
-            const users = usersData ? JSON.parse(usersData) : [];
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
 
-            const foundUser = users.find((u: any) => u.email === email && u.password === password);
-
-            if (foundUser) {
-                const userSession = {
-                    id: foundUser.id,
-                    email: foundUser.email,
-                    name: foundUser.name,
-                    createdAt: foundUser.createdAt
-                };
-                setUser(userSession);
-                sessionStorage.setItem('currentUser', JSON.stringify(userSession));
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                setUser(data.user);
                 return true;
             } else {
-                alert('Неверный email или пароль');
+                const error = await response.json();
+                alert(error.message || 'Ошибка входа');
                 return false;
             }
         } catch (error) {
-            console.error('Ошибка входа:', error);
+            console.error('Login error:', error);
             return false;
         }
     };
 
     const logout = () => {
+        localStorage.removeItem('token');
         setUser(null);
-        sessionStorage.removeItem('currentUser');
     };
 
     return (
