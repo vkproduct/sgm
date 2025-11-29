@@ -14,9 +14,8 @@ export function LandingPage() {
             <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                        <PieChart className="w-6 h-6 text-primary" />
                         <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                            Segmenticus AI
+                            Segmenticus
                         </span>
                     </div>
                     <Button variant="ghost" onClick={scrollToAuth}>Войти</Button>
@@ -51,7 +50,7 @@ export function LandingPage() {
                         <h1 className="text-5xl md:text-7xl font-light leading-tight tracking-tight text-gray-900">
                             Поймите своих клиентов <br />
                             <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                                с помощью Искусственного Интеллекта
+                                с помощью анализа данных
                             </span>
                         </h1>
                         <p className="text-xl md:text-2xl font-light text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -141,7 +140,7 @@ export function LandingPage() {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <ul className="space-y-3">
-                                    <li className="flex items-center"><Check className="w-5 h-5 text-green-500 mr-2" /> До 5,000 транзакций</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-green-500 mr-2" /> До 100 транзакций</li>
                                     <li className="flex items-center"><Check className="w-5 h-5 text-green-500 mr-2" /> Базовый RFM анализ</li>
                                     <li className="flex items-center"><Check className="w-5 h-5 text-green-500 mr-2" /> 3 сегмента клиентов</li>
                                     <li className="flex items-center text-muted-foreground"><X className="w-5 h-5 mr-2" /> Без экспорта данных</li>
@@ -162,17 +161,18 @@ export function LandingPage() {
                                 <CardTitle className="text-2xl">Бизнес</CardTitle>
                                 <CardDescription>Для растущих компаний</CardDescription>
                                 <div className="mt-4">
-                                    <span className="text-4xl font-bold">2,990 ₽</span>
+                                    <span className="text-4xl font-bold">2 990 ₽</span>
                                     <span className="text-muted-foreground"> / месяц</span>
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <ul className="space-y-3">
-                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> <strong>Безлимитные</strong> транзакции</li>
-                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Расширенный RFM+ анализ</li>
-                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Все 8 сегментов клиентов</li>
-                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Экспорт (CSV, PDF, CRM)</li>
-                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Персональные AI стратегии</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Безлимитное количество транзакции</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Продвинутый многофакторный анализ</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Все сегменты клиентов</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Экспорт (CSV, PDF)</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Персональные стратегии</li>
+                                    <li className="flex items-center"><Check className="w-5 h-5 text-purple-600 mr-2" /> Интеграция с CRM</li>
                                 </ul>
                             </CardContent>
                             <CardFooter>
