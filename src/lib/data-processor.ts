@@ -127,3 +127,59 @@ export const processTransactions = (transactions: Transaction[]): Customer[] => 
 
     return customerList;
 };
+// ... existing code ...
+
+export function normalizeData(data: any[], mapping: Record<string, string>): Transaction[] {
+    return data.map(row => {
+        // Helper to get value safely
+        const getVal = (key: string) => row[mapping[key]];
+
+        // Parse Amount
+        let amount = parseFloat(getVal('Amount'));
+        if (isNaN(amount)) amount = 0;
+
+        // Parse Quantity (default 1)
+        let quantity = parseFloat(getVal('Quantity'));
+        if (isNaN(quantity)) quantity = 1;
+
+        // Parse Date
+        let dateStr = getVal('InvoiceDate');
+        // Handle Excel serial date
+        if (typeof dateStr === 'number') {
+            const date = new Date(Math.round((dateStr - 25569) * 86400 * 1000));
+            dateStr = date.toISOString().replace('T', ' ').substring(0, 16);
+        } else if (dateStr instanceof Date) {
+            dateStr = dateStr.toISOString().replace('T', ' ').substring(0, 16);
+        } else {
+            // Try to standardize string date
+            // Assume format might need fixing, but for now pass through or basic fix
+            // If it's "DD.MM.YYYY", convert to "YYYY-MM-DD"
+            if (typeof dateStr === 'string' && dateStr.includes('.')) {
+                const parts = dateStr.split('.');
+                if (parts.length === 3) {
+                    // Assume DD.MM.YYYY
+                    dateStr = `${parts[2]}-${parts[1]}-${parts[0]} 12:00`;
+                }
+            }
+        }
+
+        // Calculate UnitPrice if we only have Total Amount
+        // Or if we have UnitPrice mapped to Amount, use it.
+        // The mapping asks for "Amount / Price". 
+        // Let's assume if Quantity > 1, Amount is UnitPrice. 
+        // Or we can just store it as UnitPrice and let the app calc Total.
+        // Standard Transaction has: Quantity, UnitPrice.
+        const unitPrice = amount; // Assume the mapped column is Unit Price
+
+        return {
+            InvoiceNo: 'MAPPED-' + Math.random().toString(36).substr(2, 9),
+            StockCode: 'ITEM',
+            Description: getVal('ProductName') || 'Product',
+            Quantity: quantity,
+            InvoiceDate: String(dateStr),
+            UnitPrice: unitPrice,
+            CustomerID: String(getVal('CustomerID')),
+            Country: getVal('Country') || 'Unknown'
+        };
+    }).filter(t => t.CustomerID && !isNaN(t.UnitPrice)); // Filter invalid rows
+}
