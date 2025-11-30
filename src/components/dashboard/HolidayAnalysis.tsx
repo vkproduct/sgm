@@ -45,16 +45,69 @@ export function HolidayAnalysis({ transactions }: HolidayAnalysisProps) {
 
         // 2. Define Holidays (dynamic year based on data)
         const dataYear = getYear(maxDate); // Assume data is mostly from one year or recent
-        const holidays = [
+
+        // Helper for variable holidays
+        const getVariableHolidays = (year: number) => {
+            const holidays = [];
+
+            // Orthodox Easter (Pascha)
+            const easterDates: Record<number, [number, number]> = {
+                2023: [3, 16], // Month is 0-indexed (April = 3)
+                2024: [4, 5],  // May
+                2025: [3, 20], // April
+            };
+            if (easterDates[year]) {
+                holidays.push({ name: 'Пасха', month: easterDates[year][0], day: easterDates[year][1] });
+            }
+
+            // Uraza Bayram (Eid al-Fitr)
+            const urazaDates: Record<number, [number, number]> = {
+                2023: [3, 21], // April
+                2024: [3, 10], // April
+                2025: [2, 30], // March
+            };
+            if (urazaDates[year]) {
+                holidays.push({ name: 'Ураза-Байрам', month: urazaDates[year][0], day: urazaDates[year][1] });
+            }
+
+            // Kurban Bayram (Eid al-Adha)
+            const kurbanDates: Record<number, [number, number]> = {
+                2023: [5, 28], // June
+                2024: [5, 16], // June
+                2025: [5, 6],  // June
+            };
+            if (kurbanDates[year]) {
+                holidays.push({ name: 'Курбан-Байрам', month: kurbanDates[year][0], day: kurbanDates[year][1] });
+            }
+
+            // Sagaalgan (Buddhist New Year)
+            const sagaalganDates: Record<number, [number, number]> = {
+                2023: [1, 21], // Feb
+                2024: [1, 10], // Feb
+                2025: [1, 28], // Feb
+            };
+            if (sagaalganDates[year]) {
+                holidays.push({ name: 'Сагаалган', month: sagaalganDates[year][0], day: sagaalganDates[year][1] });
+            }
+
+            return holidays;
+        };
+
+        const fixedHolidays = [
             { name: 'Новый Год', month: 0, day: 1 },
+            { name: 'Рождество (Прав.)', month: 0, day: 7 }, // Orthodox Christmas
             { name: 'День Влюбленных', month: 1, day: 14 },
             { name: '8 Марта', month: 2, day: 8 },
             { name: 'День Труда', month: 4, day: 1 },
+            { name: 'День Победы', month: 4, day: 9 },
+            { name: 'День России', month: 5, day: 12 },
             { name: 'День Знаний', month: 8, day: 1 },
             { name: 'Хэллоуин', month: 9, day: 31 },
             { name: 'Черная Пятница', month: 10, day: 29 }, // Approximate
-            { name: 'Рождество', month: 11, day: 25 },
+            { name: 'Католич. Рождество', month: 11, day: 25 },
         ];
+
+        const holidays = [...fixedHolidays, ...getVariableHolidays(dataYear)];
 
         // 3. Calculate stats for each holiday window (+/- 3 days)
         const holidayStats: HolidayStats[] = holidays.map(h => {
